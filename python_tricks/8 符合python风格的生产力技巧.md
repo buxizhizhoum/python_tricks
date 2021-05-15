@@ -94,3 +94,165 @@ Python解释器会根据对象的属性及其文档字符串（如果有）自�
 ## 重点
 - 使用内置的dir()函数可以在解释器会话中交互式地探索Python模块和类。
 - 内置的help()可让你直接从解释器中浏览文档（按q退出）。
+
+
+## 8.2 使用Virtualenv隔离项目依赖项
+
+Python包含一个功能强大的打包系统，用于管理包依赖。
+你可能已经使用pip包管理命令安装了第三方软件包。
+
+使用pip安装包的一个问题是它默认会将它们安装到全局的Python环境中。
+
+当然，这可以使你安装的所有新软件包全局可用，这非常方便。
+但是，如果你要处理的多个项目需要使用同一软件包的不同版本，
+那么它也会很快变成一场噩梦。
+
+例如，如果你的一个项目需要一个库的1.3版本，
+而另一个项目需要同一个库的1.4版本，该怎么办？
+
+在全局安装软件包时，所有程序中只能有一个Python库版本。
+这意味着你将很快会遇到版本冲突，就像高地人[^1]一样。
+[^1]: 这个梗来自经典电视剧“Highlander: The Series”(《挑战者》)，
+      因为苏格兰北部为高地(Highland)，
+      而剧中的苏格兰裔男主角每次都只能战斗到剩下一个人
+
+更糟的是，你可能还需要在不同的程序中使用不同版本的Python。
+例如，某些程序可能仍在Python 2上运行，而大多数新开发的程序都在Python 3上运行。
+或者，如果你的一个项目需要Python 3.3，而其他所有项目都在Python 3.6上运行，该怎么办？
+
+除此之外，在全局安装Python软件包还可能带来安全风险。
+修改全局环境通常需要你使用超级用户（root/admin）运行pip install命令。
+因为在安装新软件包时pip会从Internet下载并执行代码，
+所以通常不建议这样做。
+希望代码是值得信赖的，但是谁知道它真正会做什么呢？
+
+## 使用虚拟环境
+
+解决这些问题的方法是用虚拟环境将你的Python环境进行隔离。
+它们使你可以按项目分隔Python依赖项，
+并使你能够选择不同版本的Python解释器。
+
+虚拟环境是一个隔离的Python环境。
+从物理上讲，它位于一个文件夹内，
+这个文件夹包含Python项目所需的所有包和其他依赖项，
+例如代码库和解释器运行时。（在底层，为了节约存储空间，这些文件可能不是真实的副本，而是只是链接。）
+
+为了演示虚拟环境的工作原理，
+我将向你快速介绍如何设置一个新环境（简称为virtualenv），
+然后在其中安装第三方程序包。
+
+首先，让我们检查一下全局Python环境所在的位置。
+在Linux或macOS上，我们可以使用which命令行工具来查找pip的路径：
+
+    $ which pip3
+    /usr/local/bin/pip3
+
+为了保持美观和独立，我通常将虚拟环境放在项目文件夹中。
+但是，你也可以在某个地方有一个专用的python环境目录，
+用来容纳跨项目的所有环境。
+这是你的选择。
+
+让我们创建一个新的Python虚拟环境：
+
+    $ python3 -m venv ./venv
+
+这需要一点时间，它会在当前目录中创建一个venv文件夹，
+文件夹中会包含一个基准的Python 3环境：
+
+    $ ls venv/
+    bin include lib pyvenv.cfg
+
+如果你检查pip的活动版本（使用which命令），
+你会看到它仍指向全局环境，在我的环境下是`/usr/local/bin/pip3`：
+
+    (venv) $ which pip3
+    /usr/local/bin/pip3
+
+这意味着，如果你现在安装软件包，它们仍然会在全局Python环境中运行。
+创建虚拟环境文件夹是不够的，你需要显式激活新的虚拟环境，
+以便以后运行pip命令时引用该文件夹：
+
+    $ source ./venv/bin/activate
+    (venv) $
+
+运行activate命令会将当前的Shell会话配置为使用虚拟环境中的Python和pip命令。
+
+请注意，这会更改你的Shell提示符，在括号内会包含活动的虚拟环境的名称：(venv)。
+让我们检查一下哪个pip现在处于活动状态：
+
+    (venv) $ which pip3
+    /Users/dan/my-project/venv/bin/pip3
+
+如你所见，执行pip3命令现在会运行在虚拟环境中的pip而不是全局环境中的。
+Python解释器也是如此。
+现在，从命令行运行python也会从venv文件夹中加载解释器：
+
+    (venv) $ which python
+    /Users/dan/my-project/venv/bin/python
+
+请注意，这仍然是一片空白，一个完全干净的Python环境。
+执行pip list将显示几乎没有已安装的包，
+仅仅包括支持pip本身所需的基准模块：
+
+    (venv) $ pip list
+    pip (9.0.1)
+    setuptools (28.8.0)
+
+让我们继续，现在将Python软件包安装到虚拟环境中。
+你想使用熟悉的pip install命令：
+
+    (venv) $ pip install schedule
+    Collecting schedule
+    Downloading schedule-0.4.2-py2.py3-none-any.whl
+    Installing collected packages: schedule
+    Successfully installed schedule-0.4.2
+
+你会注意到两个重要的变化。
+首先，你将不再需要管理员权限才能執行此命令。
+其次，使用激活的虚拟环境安装或更新包意味着所有文件都将最终存储在虚拟环境目录的子文件夹中。
+
+因此，你的项目依赖项将与系统上的所有其他Python环境（包括全局环境）在物理上隔離。
+实际上，你会为每个项目获得一个单独的Python运行时的克隆。
+
+通过再次运行pip list，你可以看到schedule库已成功安装到新环境中：
+
+    (venv) $ pip list
+    pip (9.0.1)
+    schedule (0.4.2)
+    setuptools (28.8.0)
+
+如果我们使用python命令启动一个Python解释器会话，
+或者使用它运行一个独立的`.py`文件，
+它将使用安装在虚拟环境中的Python解释器和依赖项——只要该环境仍处于激活状态。
+
+但是，如何再次停用或“离开”虚拟环境呢？
+与`activate`命令类似，有一个`deactivate`命令可以让你回到全局环境：
+
+    (venv) $ deactivate
+    $ which pip3
+    /usr/local/bin
+
+使用虚拟环境将有助于使你的系统整洁，并使Python依赖项井井有条。
+最佳做法是，所有Python项目均应使用虚拟环境来隔离依赖项并避免版本冲突。
+
+了解和使用虚拟环境还可以使你走上正确的道路，你可以使用更高级的依赖关系管理方法，
+例如使用requirements.txt文件指定项目依赖。
+
+如果你想深入了解这个主题以获得其他提高效率的提示，
+请务必看看我的[课程](https://realpython.com/products/managing-python-dependencies/) 。
+
+## 重点
+
+- 虚拟环境可以使项目依赖相互隔离。
+  它们帮助你避免Python包与运行时的版本冲突。
+- 最佳做法是，所有Python项目均使用虚拟环境来存储其依赖项。这将有助于避免一些头痛的问题。
+
+
+## 字节码
+
+
+
+
+
+
+
