@@ -8,6 +8,8 @@
 如果你发现任何错误，或者有更好地的译法，都可以提pr或者直接提issue，我会尽快更正。
 
 
-### TODO: 提供pdf版本，提供网页版本
+[网页版本](https://python-tricks.readthedocs.io/en/latest/)
+
+### TODO: 提供pdf版本
 
 
