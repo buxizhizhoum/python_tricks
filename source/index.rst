@@ -8,9 +8,9 @@ Welcome to python_tricks!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :glob:
 
-   python_tricks/*
+   ../python_tricks/*
    aboutme
 
 
@@ -19,5 +19,3 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
