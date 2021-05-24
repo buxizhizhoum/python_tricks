@@ -31,9 +31,7 @@ release = '1.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-    # 'myst_parser',
     'recommonmark',
-    # 'sphinx_markdown_tables',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -82,26 +80,46 @@ html_static_path = ['_static']
 #     'inputenc': '',
 #     'utf8extra': '',
 # }
+latex_engine = 'xelatex'
 
 latex_elements = {
-    # The paper size ('letterpaper' or 'a4paper').
-    'papersize':'a4paper',# The font size ('10pt', '11pt' or '12pt').
-    'pointsize':'12pt','classoptions':',oneside','babel':'',#必须
-    'inputenc':'',#必须
-    'utf8extra':'',#必须
-    # Additional stuff for the LaTeX preamble.
-    'preamble': r"""
-    \usepackage{xeCJK}
-    \usepackage{indentfirst}
-    \setlength{\parindent}{2em}
-    \setCJKmainfont{WenQuanYi Micro Hei}
-    \setCJKmonofont[Scale=0.9]{WenQuanYi Micro Hei Mono}
-    \setCJKfamilyfont{song}{WenQuanYi Micro Hei}
-    \setCJKfamilyfont{sf}{WenQuanYi Micro Hei}
-    \XeTeXlinebreaklocale "zh"
-    \XeTeXlinebreakskip = 0pt plus 1pt"""
+    'fontpkg': r'''
+        \setmainfont{DejaVu Serif}
+        \setsansfont{DejaVu Sans}
+        \setmonofont{DejaVu Sans Mono}
+        ''',
+    'preamble': r'''
+        \usepackage[titles]{tocloft}
+        \cftsetpnumwidth {1.25cm}\cftsetrmarg{1.5cm}
+        \setlength{\cftchapnumwidth}{0.75cm}
+        \setlength{\cftsecindent}{\cftchapnumwidth}
+        \setlength{\cftsecnumwidth}{1.25cm}
+        ''',
+    'fncychap': r'\usepackage[Bjornstrup]{fncychap}',
+    'printindex': r'\footnotesize\raggedright\printindex',
+    'inputenc': '',
+    'utf8extra': '',
 }
+latex_show_urls = 'footnote'
+
+# latex_elements = {
+#     # The paper size ('letterpaper' or 'a4paper').
+#     'papersize':'a4paper',# The font size ('10pt', '11pt' or '12pt').
+#     'pointsize':'12pt','classoptions':',oneside','babel':'',#必须
+#     'inputenc':'',#必须
+#     'utf8extra':'',#必须
+#     # Additional stuff for the LaTeX preamble.
+#     'preamble': r"""
+#     \usepackage{xeCJK}
+#     \usepackage{indentfirst}
+#     \setlength{\parindent}{2em}
+#     \setCJKmainfont{WenQuanYi Micro Hei}
+#     \setCJKmonofont[Scale=0.9]{WenQuanYi Micro Hei Mono}
+#     \setCJKfamilyfont{song}{WenQuanYi Micro Hei}
+#     \setCJKfamilyfont{sf}{WenQuanYi Micro Hei}
+#     \XeTeXlinebreaklocale "zh"
+#     \XeTeXlinebreakskip = 0pt plus 1pt"""
+# }
 
 
-# PDFLATEX = xelatex
 
