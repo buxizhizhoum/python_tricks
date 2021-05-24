@@ -64,43 +64,43 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-latex_elements = {
-    'preamble': r'''
-    % Enable unicode and use Courier New to ensure the card suit
-    % characters that are part of the 'random' module examples
-    % appear properly in the PDF output.
-    \usepackage{xeCJK}
-    \usepackage{fontspec}
-    \setmonofont{Courier New}''',
-
-    # disable font inclusion
-    'fontpkg': '',
-    'fontenc': '',
-
-    # Fix Unicode handling by disabling the defaults for a few items
-    # set by sphinx
-    'inputenc': '',
-    'utf8extra': '',
-}
-
 # latex_elements = {
-#     # The paper size ('letterpaper' or 'a4paper').
-#     'papersize':'a4paper',# The font size ('10pt', '11pt' or '12pt').
-#     'pointsize':'12pt','classoptions':',oneside','babel':'',#必须
-#     'inputenc':'',#必须
-#     'utf8extra':'',#必须
-#     # Additional stuff for the LaTeX preamble.
-#     'preamble': r"""
+#     'preamble': r'''
+#     % Enable unicode and use Courier New to ensure the card suit
+#     % characters that are part of the 'random' module examples
+#     % appear properly in the PDF output.
 #     \usepackage{xeCJK}
-#     \usepackage{indentfirst}
-#     \setlength{\parindent}{2em}
-#     \setCJKmainfont{WenQuanYi Micro Hei}
-#     \setCJKmonofont[Scale=0.9]{WenQuanYi Micro Hei Mono}
-#     \setCJKfamilyfont{song}{WenQuanYi Micro Hei}
-#     \setCJKfamilyfont{sf}{WenQuanYi Micro Hei}
-#     \XeTeXlinebreaklocale "zh"
-#     \XeTeXlinebreakskip = 0pt plus 1pt"""
+#     \usepackage{fontspec}
+#     \setmonofont{Courier New}''',
+#
+#     # disable font inclusion
+#     'fontpkg': '',
+#     'fontenc': '',
+#
+#     # Fix Unicode handling by disabling the defaults for a few items
+#     # set by sphinx
+#     'inputenc': '',
+#     'utf8extra': '',
 # }
+
+latex_elements = {
+    # The paper size ('letterpaper' or 'a4paper').
+    'papersize':'a4paper',# The font size ('10pt', '11pt' or '12pt').
+    'pointsize':'12pt','classoptions':',oneside','babel':'',#必须
+    'inputenc':'',#必须
+    'utf8extra':'',#必须
+    # Additional stuff for the LaTeX preamble.
+    'preamble': r"""
+    \usepackage{xeCJK}
+    \usepackage{indentfirst}
+    \setlength{\parindent}{2em}
+    \setCJKmainfont{WenQuanYi Micro Hei}
+    \setCJKmonofont[Scale=0.9]{WenQuanYi Micro Hei Mono}
+    \setCJKfamilyfont{song}{WenQuanYi Micro Hei}
+    \setCJKfamilyfont{sf}{WenQuanYi Micro Hei}
+    \XeTeXlinebreaklocale "zh"
+    \XeTeXlinebreakskip = 0pt plus 1pt"""
+}
 
 
 # PDFLATEX = xelatex
