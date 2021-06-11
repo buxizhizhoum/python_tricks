@@ -35,5 +35,9 @@
 
 [网页版本](https://python-tricks.readthedocs.io/en/latest/)
 
+# 版权声明
+
+仅用于学习交流目的，严禁任何商业行为使用或引用该文档的全部或部分内容！
+
 
 
